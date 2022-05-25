@@ -1,0 +1,18 @@
+kind: Service
+apiVersion: v1
+metadata:
+    name: sample-nodeapp
+    namespace: observability
+    labels:
+        app: sample-nodeapp
+spec:
+    selector:
+        app: sample-nodeapp
+    type: ClusterIP
+    ports:
+        - protocol: TCP
+          port: 7777
+          name: samplea
+        - protocol: TCP
+          port: 5555
+          name: sampleb

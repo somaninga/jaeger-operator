@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-nodeapp
+  annotations:
+    "sidecar.jaegertracing.io/inject": "true"
+  namespace: observability
+  labels:
+    app: sample-nodeapp
+spec:
+  revisionHistoryLimit: 0
+  selector:
+    matchLabels:
+      app: sample-nodeapp
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: sample-nodeapp
+    spec:
+      containers:
+        - image: 368471451480.dkr.ecr.us-west-2.amazonaws.com/f2p/sample-nodeapp:latest
+          name: sample-nodeapp
+          imagePullPolicy: Always    
+          ports:
+            - containerPort: 7777
+              name: samplea
+              protocol: TCP
+            - containerPort: 5555
+              name: sampleb
+              protocol: TCP
+          resources:
+            limits:
+              memory: "700Mi"
+              cpu: "400m"
+            requests:
+              memory: "500Mi"
+              cpu: "300m"
